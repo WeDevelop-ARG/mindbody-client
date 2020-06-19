@@ -1,5 +1,5 @@
 {
-  "name": "mindbody-client",
+  "name": "@wedevelop-arg/mindbody-client",
   "version": "0.0.1",
   "description": "A MindBody v6 API Client",
   "main": "dist/index.js",
@@ -26,6 +26,7 @@
     "@babel/preset-env": "^7.10.2",
     "babel-plugin-root-import": "^6.5.0",
     "jest": "^26.0.1",
+    "np": "^6.2.4",
     "standard": "^14.3.4"
   },
   "dependencies": {
