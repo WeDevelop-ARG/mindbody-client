@@ -7,6 +7,8 @@
   "scripts": {
     "build": "npx babel src --out-dir dist",
     "start": "npx babel src --watch --out-dir dist",
+    "cleanup": "rimraf ./dist",
+    "prepublishOnly": "npm run cleanup && npm run build",
     "test": "jest"
   },
   "publishConfig": {
@@ -35,6 +37,7 @@
     "babel-plugin-root-import": "^6.5.0",
     "jest": "^26.0.1",
     "np": "^6.2.4",
+    "rimraf": "^3.0.2",
     "standard": "^14.3.4"
   },
   "dependencies": {
