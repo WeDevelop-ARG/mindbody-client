@@ -1,5 +1,5 @@
 {
-  "name": "@wedevelop-arg/mindbody-client",
+  "name": "@wedevelop/mindbody-client",
   "private": false,
   "version": "0.0.1",
   "description": "A MindBody v6 API Client",
