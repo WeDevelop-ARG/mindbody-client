@@ -1,7 +1,7 @@
 {
   "name": "@wedevelop/mindbody-client",
   "private": false,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A MindBody v6 API Client",
   "main": "dist/index.js",
   "scripts": {
