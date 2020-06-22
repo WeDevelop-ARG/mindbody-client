@@ -24,7 +24,7 @@ class Client {
         ClientId: this.id
       },
       responseMapper: ({ ClientMemberships }) =>
-        ClientMemberships.map(m => new ClientMembership(this, m))
+        ClientMemberships.map(m => new ClientMembership(this._mbClient, m))
     })
   }
 }
