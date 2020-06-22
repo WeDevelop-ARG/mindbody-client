@@ -1,7 +1,7 @@
 class ResultsPage {
-  constructor (client, requestConfig, response) {
+  constructor (mbClient, requestConfig, response) {
     this[Symbol.asyncIterator] = this.pagesGenerator
-    this._client = client
+    this._mbClient = mbClient
     this._requestConfig = requestConfig
     this._response = response
     this._paginationResponse = response.PaginationResponse
@@ -39,18 +39,20 @@ class ResultsPage {
     return this.requestedOffset - this.requestedLimit
   }
 
+  isEmpty () {
+    return this.pageSize > 0
+  }
+
   async * pagesGenerator () {
     let current = this
-    do {
+    while (current && !current.isEmpty()) {
       yield current.response
       current = await current.getNextPage()
-    } while (current)
+    }
   }
 
   hasNextPage () {
-    return (
-      this.nextOffset < this.totalResults
-    )
+    return this.nextOffset < this.totalResults
   }
 
   hasPreviousPage () {
@@ -60,7 +62,7 @@ class ResultsPage {
   getNextPage () {
     if (!this.hasNextPage()) return null
 
-    return this._client.doRequest({
+    return this._mbClient.doRequest({
       ...this._requestConfig,
       params: {
         ...(this._requestConfig.params || {}),
@@ -72,7 +74,7 @@ class ResultsPage {
   getPreviousPage () {
     if (!this.hasPreviousPage()) return null
 
-    return this._client.doRequest({
+    return this._mbClient.doRequest({
       ...this._requestConfig,
       params: {
         ...(this._requestConfig.params || {}),

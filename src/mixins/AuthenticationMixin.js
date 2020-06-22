@@ -1,7 +1,7 @@
 import { defaults } from 'lodash'
 
 const DEFAULT_PARAMS = {
-  tokenLifetimeAfterLastUse: 5 * 24 * 60 * 60 // 5 days
+  tokenLifetimeAfterLastUseMS: 5 * 24 * 60 * 60 * 1000 // 5 days
 }
 
 const AuthenticationMixin = ParentClass =>
@@ -9,14 +9,14 @@ const AuthenticationMixin = ParentClass =>
     constructor (params) {
       super(params)
       this._params = defaults(params, DEFAULT_PARAMS)
-      this._tokenLastUsedAt = null
+      this._tokenLastUsedAtMS = null
     }
 
     async doRequest ({ url, ...requestConfig }) {
       if (urlRequiresAuthentication(url)) {
         await this._ensureTokenIsValid()
 
-        this._tokenLastUsedAt = Date.now()
+        this._tokenLastUsedAtMS = Date.now()
       }
 
       return super.doRequest({ url, ...requestConfig })
@@ -29,7 +29,9 @@ const AuthenticationMixin = ParentClass =>
     }
 
     _isCurrentTokenExpired () {
-      return Date.now() - this._tokenLastUsedAt >= this._params.tokenLifetimeAfterLastUse
+      const timeElapsedSinceLastUseMS = Date.now() - this._tokenLastUsedAtMS
+
+      return timeElapsedSinceLastUseMS >= this._params.tokenLifetimeAfterLastUseMS
     }
 
     async _renewAccessToken () {
@@ -42,7 +44,7 @@ const AuthenticationMixin = ParentClass =>
     }
 
     _getStaffUserToken ({ username, password }) {
-      return super.post('/usertoken/issue', {
+      return this.post('/usertoken/issue', {
         Username: username,
         Password: password
       }, { responseMapper: ({ AccessToken }) => AccessToken })
