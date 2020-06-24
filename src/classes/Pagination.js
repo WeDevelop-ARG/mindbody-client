@@ -40,7 +40,7 @@ class ResultsPage {
   }
 
   isEmpty () {
-    return this.pageSize > 0
+    return this.pageSize === 0
   }
 
   async * pagesGenerator () {
