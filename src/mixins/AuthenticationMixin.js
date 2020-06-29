@@ -12,8 +12,8 @@ const AuthenticationMixin = ParentClass =>
       this._tokenLastUsedAtMS = null
     }
 
-    async doRequest ({ url, ...requestConfig }) {
-      if (urlRequiresAuthentication(url)) {
+    async doRequest ({ url, skipAuthorization = false, ...requestConfig }) {
+      if (!skipAuthorization && urlRequiresAuthentication(url)) {
         await this._ensureTokenIsValid()
 
         this._tokenLastUsedAtMS = Date.now()

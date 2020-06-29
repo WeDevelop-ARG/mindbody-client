@@ -11,6 +11,7 @@ const SiteMixin = ParentClass =>
 
     getDeveloperActivationMethods () {
       return this.get('/site/activationcode', {
+        skipAuthorization: true,
         responseMapper: ({ ActivationCode, ActivationLink }) => ({
           activationCode: ActivationCode,
           activationLink: ActivationLink
